@@ -2,7 +2,9 @@ import pandas as pd
 from sklearn.cluster import DBSCAN
 import json
 import matplotlib.pyplot as plt
+import requests
 
+API_KEY = 'AIzaSyDClDIf0fos3x3HdvNIYkSka2N8itNDVOg'
 
 # Function to read the JSON file and extract coordinates
 def extract_coordinates_from_file(file_path):
@@ -25,35 +27,44 @@ def extract_coordinates_from_file(file_path):
 file_path = '/Users/kearapolovick/Desktop/location-history.json'
 coordinates = extract_coordinates_from_file(file_path)
 
-# Check if coordinates are extracted
-if not coordinates:
-    print("No valid coordinates found in the file.")
-else:
-    # Convert the coordinates to a pandas DataFrame
-    df = pd.DataFrame(coordinates, columns=['latitude', 'longitude'])
 
-    # Step 2: DBSCAN clustering on the coordinates
-    # Convert latitudes and longitudes to radians for geodesic distance computation
-    coords_in_radians = df.apply(lambda x: [x['latitude'], x['longitude']], axis=1).tolist()
+# Convert the coordinates to a pandas DataFrame
+df = pd.DataFrame(coordinates, columns=['latitude', 'longitude'])
 
-    # DBSCAN clustering
-    db = DBSCAN(eps=0.0005, min_samples=2, metric='haversine').fit(coords_in_radians)
+# Step 2: DBSCAN clustering on the coordinates
+# Convert latitudes and longitudes to radians for geodesic distance computation
+coords_in_radians = df.apply(lambda x: [x['latitude'], x['longitude']], axis=1).tolist()
 
-    # Add the cluster labels to the DataFrame
-    df['cluster'] = db.labels_
+# DBSCAN clustering
+db = DBSCAN(eps=0.0005, min_samples=2, metric='haversine').fit(coords_in_radians)
 
-    # Print the DataFrame with the cluster labels
-    print(df)
+# Add the cluster labels to the DataFrame
+df['cluster'] = db.labels_
 
-    # The clusters for the coordinates
-    print("Clustered Coordinates:")
-    print(df.groupby('cluster').agg({'latitude': 'mean', 'longitude': 'mean'}))
+# Print the DataFrame with the cluster labels
+print(df)
 
-    # Visualization of the clusters
-    plt.scatter(df['longitude'], df['latitude'], c=df['cluster'], cmap='viridis')
-    plt.xlabel('Longitude')
-    plt.ylabel('Latitude')
-    plt.title('DBSCAN Clusters of Locations')
-    plt.colorbar(label='Cluster ID')
-    plt.show()
+# The clusters for the coordinates
+print("Clustered Coordinates:")
+print(df.groupby('cluster').agg({'latitude': 'mean', 'longitude': 'mean'}))
+
+# Visualization of the clusters
+plt.scatter(df['longitude'], df['latitude'], c=df['cluster'], cmap='viridis')
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.title('DBSCAN Clusters of Locations')
+plt.colorbar(label='Cluster ID')
+plt.show()
+
+
+def get_place_info(latitude, longitude):
+    url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={latitude},{longitude}&radius=1000&key={API_KEY}"
+    response = requests.get(url)
+    results = response.json()
+    return results
+
+for x in range(0, 100):
+    result = get_place_info(df['latitude'][x], df['longitude'][x])
+    print(result['results'][1]['name'])
+
 
