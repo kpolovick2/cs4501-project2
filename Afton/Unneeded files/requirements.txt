@@ -3,5 +3,3 @@ pandas
 scikit-learn
 folium
 requests
-
-#API Key = AIzaSyCoYdfEFsoHVp1fVNuitU6sQwhUg9ygDQc
