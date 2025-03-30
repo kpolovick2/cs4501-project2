@@ -2,7 +2,7 @@ import requests
 import time
 
 # Google Places API Key
-API_KEY = "api key"  
+API_KEY = "AIzaSyCoYdfEFsoHVp1fVNuitU6sQwhUg9ygDQc"  
 BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
 
 def get_place_type(lat, lon, radius=50):

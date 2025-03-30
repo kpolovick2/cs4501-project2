@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import geopandas as gpd
+import contextily as ctx
 from shapely.geometry import Point
 
 # Load labeled cluster data
@@ -13,16 +14,16 @@ if len(df_clusters) == 0:
 
 # Create GeoDataFrame for plotting
 geometry = [Point(xy) for xy in zip(df_clusters["longitude"], df_clusters["latitude"])]
-gdf_clusters = gpd.GeoDataFrame(df_clusters, geometry=geometry)
+gdf_clusters = gpd.GeoDataFrame(df_clusters, geometry=geometry, crs="EPSG:4326")
 
-# Load world map from local file
-world = gpd.read_file("ne_110m_admin_0_countries.shp")
+# Convert to Web Mercator (EPSG:3857) for contextily compatibility
+gdf_clusters = gdf_clusters.to_crs(epsg=3857)
 
 # Set up a Matplotlib figure
 fig, ax = plt.subplots(figsize=(10, 8))
 
-# Plot a basic world map
-world.plot(ax=ax, color="lightgray")
+# Add a basemap (OpenStreetMap for now)
+ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik, zoom=14)
 
 # Define colors for place types
 colors = {"home": "red", "work": "blue", "restaurant": "orange", "school": "green", "other": "purple"}
@@ -41,11 +42,11 @@ for _, row in gdf_clusters.iterrows():
 
 # Set map bounds to fit all points
 min_x, min_y, max_x, max_y = gdf_clusters.total_bounds
-ax.set_xlim(min_x - 0.02, max_x + 0.02)  # Add padding to avoid cutting off points
-ax.set_ylim(min_y - 0.02, max_y + 0.02)
+ax.set_xlim(min_x - 500, max_x + 500)
+ax.set_ylim(min_y - 500, max_y + 500)
 
 # Add title and labels
-plt.title("Significant Locations and Clusters")
+plt.title("Significant Locations and Clusters with Basemap")
 plt.xlabel("Longitude")
 plt.ylabel("Latitude")
 
@@ -55,8 +56,8 @@ unique_labels = dict(zip(labels, handles))
 if unique_labels:
     ax.legend(unique_labels.values(), unique_labels.keys(), title="Place Types")
 
-# Save the map as a PNG (optional)
-plt.savefig("significant_locations_map.png", dpi=300)
+# Save the map as PNG (optional)
+plt.savefig("significant_locations_map_with_basemap.png", dpi=300)
 
-# Show the map with zoomed-in view
+# Show the map
 plt.show()
