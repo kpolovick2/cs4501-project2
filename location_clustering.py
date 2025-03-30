@@ -4,7 +4,7 @@ import json
 import matplotlib.pyplot as plt
 import requests
 
-API_KEY = 'AIzaSyDClDIf0fos3x3HdvNIYkSka2N8itNDVOg'
+# API_KEY = enter API key here
 
 # Function to read the JSON file and extract coordinates
 def extract_coordinates_from_file(file_path):
