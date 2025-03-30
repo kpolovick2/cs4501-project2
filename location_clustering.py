@@ -1,3 +1,4 @@
+import folium
 import pandas as pd
 from sklearn.cluster import DBSCAN
 import json
@@ -58,13 +59,55 @@ plt.show()
 
 
 def get_place_info(latitude, longitude):
-    url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={latitude},{longitude}&radius=1000&key={API_KEY}"
+    url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={latitude},{longitude}&radius=1000&key={'AIzaSyDClDIf0fos3x3HdvNIYkSka2N8itNDVOg'}"
     response = requests.get(url)
     results = response.json()
     return results
 
-for x in range(0, 100):
+for x in range(0, 10):
     result = get_place_info(df['latitude'][x], df['longitude'][x])
     print(result['results'][1]['name'])
 
+# Use Google Places API to label the clusters
+def label_clusters(data):
+    labels = []
+    for index, row in data.iterrows():
+        # Get the center of each cluster
+        cluster_center = data[data['cluster'] == row['cluster']].mean()
+        places_info = get_place_info(cluster_center['latitude'], cluster_center['longitude'])
 
+        if 'results' in places_info:
+            place_types = [result['types'] for result in places_info['results']]
+            most_common_place_type = max(place_types, key=place_types.count, default='Unknown')
+        else:
+            most_common_place_type = 'Unknown'
+
+        labels.append(most_common_place_type)
+
+    data['place_type'] = labels
+    return data
+
+# # Visualize the clusters on a map
+# def plot_map(data):
+#     # Create a folium map centered around the mean location
+#     center = [data['latitude'].mean(), data['longitude'].mean()]
+#     m = folium.Map(location=center, zoom_start=12)
+#
+#     # Plot clusters
+#     for _, row in data.iterrows():
+#         folium.CircleMarker([row['latitude'], row['longitude']],
+#                             radius=5, color='blue', fill=True).add_to(m)
+#
+#     m.save('map.html')  # Save the map as an HTML file to view in the browser
+#     print("Map saved as map.html")
+#
+# # Plot a time series of visits
+# def plot_time_series(data):
+#     data.set_index('timestamp', inplace=True)
+#     data.resample('D').size().plot()  # Number of visits per day
+#     plt.title("Visits per Day")
+#     plt.xlabel("Date")
+#     plt.ylabel("Number of Visits")
+#     plt.show()
+
+data = label_clusters(df)
