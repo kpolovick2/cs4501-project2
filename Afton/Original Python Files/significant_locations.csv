@@ -1,6 +1,7 @@
-cluster,latitude,longitude,visits,address,business_name,place_type
-0,37.53289939130435,-77.5659492173913,46,"2629 Jimmy Winters Rd, Richmond, VA 23235, USA",,Other
-1,37.51057466666667,-77.61551746666666,15,"1200 Alverser Plaza, Midlothian, VA 23113, USA",,Other
-2,38.034999285087714,-78.50554376754386,228,"39 W Range, Charlottesville, VA 22903, USA",,Other
-3,37.55783654545455,-77.66085936363636,11,"414 Huguenot Trail, Midlothian, VA 23113, USA",,Other
-4,37.56406775,-77.4854905,12,"3718 Patterson Ave, Richmond, VA 23221, USA",,Other
+cluster,latitude,longitude,visit_count,place_name,place_type
+0,38.030992,-78.503485,89,,
+1,38.132616,-78.433283,6,,
+2,38.052815,-78.501257,7,,
+3,37.531016,-77.567882,23,,
+4,37.558461,-77.659897,7,,
+5,37.503912,-77.615251,10,,

@@ -18,14 +18,16 @@ def load_location_data(file_path):
     with open(file_path, 'r') as f:
         data = json.load(f)
     
-    one_month_ago = datetime(2025, 3, 20)
+    start_date = datetime(2025, 1, 20)  # Start date: 1/20/2025
+    end_date = datetime(2025, 3, 16)   # End date: 3/16/2025
 
     coordinates = []
     for entry in data:
         if "startTime" in entry:
             entry_time = datetime.strptime(entry["startTime"][:19], "%Y-%m-%dT%H:%M:%S")
-
-            if entry_time >= one_month_ago:
+            
+            # Include data only within the specified date range
+            if entry_time < start_date or entry_time > end_date:
                 continue
 
         if "visit" in entry and "topCandidate" in entry["visit"]:
@@ -68,8 +70,8 @@ def get_frequent_location_from_cluster(cluster_data):
 def get_significant_locations(df):
     cluster_counts = Counter(df['cluster'])
     
-    # Filter out noise (-1 label) and small clusters
-    significant_clusters = {key: val for key, val in cluster_counts.items() if key != -1 and val > 5}
+    # Filter out noise (-1 label) and small clusters, only keep clusters with occurrences of 6 or greater
+    significant_clusters = {key: val for key, val in cluster_counts.items() if key != -1 and val >= 6}
     
     significant_locations = []
     
@@ -118,6 +120,9 @@ for index, row in significant_locations.iterrows():
     significant_locations.at[index, 'place_name'] = name
     significant_locations.at[index, 'place_type'] = ', '.join(types) if types else None
     time.sleep(1)
+
+# Check the first few rows to debug the "Unknown" labels
+print(significant_locations.head())
 
 # STEP 6: Save Summary Information to CSV
 summary_data = []
