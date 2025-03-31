@@ -1,0 +1,24 @@
+Significant Clusters of Locations: 1/20/2025 - 3/16/2025
+Afton Mueller
+
+Coordinates: 37.531016, -77.567882
+Visit Count: 25.0
+Address: 2518, Jimmy Winters Road, Sheffield Court, Bon Air, Chesterfield County, Virginia, 23235, United States
+Coordinates: 38.030992, -78.503485
+Visit Count: 57.0
+Address: The Monroe, 429, Monroe Lane, Jefferson Park Avenue, Charlottesville, Albemarle County, Virginia, 22903, United States
+Coordinates: 38.036178, -78.499701
+Visit Count: 3.0
+Address: The V, 201-213, 15th Street Northwest, Venable, Charlottesville, Virginia, 22903, United States
+Coordinates: 38.036457, -78.505368
+Visit Count: 10.0
+Address: University of Virginia, Faulconer Drive, University of Virginia, Albemarle County, Virginia, 22903, United States
+Coordinates: 38.132616, -78.433283
+Visit Count: 4.0
+Address: Leake Square, Springfield, Albemarle County, Virginia, 22911, United States
+Coordinates: 38.052815, -78.501257
+Visit Count: 8.0
+Address: 1121,1123,1125,1127, Millmont Street, Barracks Road Shopping Center, Charlottesville, Virginia, 22903, United States
+Coordinates: 37.558461, -77.659897
+Visit Count: 8.0
+Address: 414, Huguenot Trail, Powhatan County, Virginia, 23113, United States
