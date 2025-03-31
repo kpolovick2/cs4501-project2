@@ -11,7 +11,7 @@ from sklearn.metrics import pairwise_distances_argmin_min
 import folium  # For map visualization
 
 # Your Google API key (not used in the new method, but kept for legacy purposes)
-API_KEY = os.getenv("AIzaSyCNyMpVn9XKflzM-vPVTWsp2w_oI0e__lQ")
+API_KEY = os.getenv("API Key")
 
 # STEP 1: Read Google Takeout Data
 def load_location_data(file_path):
