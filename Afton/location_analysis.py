@@ -104,61 +104,183 @@ def get_osm_address(lat, lon):
         print(f"Unexpected error for ({lat}, {lon}): {e}")
         return "Unknown"
 
-significant_locations['address'] = None
+# NEW STEP: Add function to determine location type based on address
+def determine_location_type(address, amenity=None):
+    """
+    Determine the type of location based on keywords in the address or amenity information.
+    
+    Args:
+        address (str): The address string from OSM
+        amenity (str, optional): Specific amenity type if available from OSM
+        
+    Returns:
+        str: The determined location type
+    """
+    # Define location types and their associated keywords
+    location_types = {
+        'Residential': ['house', 'apartment', 'residential', 'home', 'flat', 'condo', 'housing'],
+        'Educational': ['university', 'college', 'school', 'campus', 'library', 'academy', 'institute'],
+        'Commercial': ['shop', 'store', 'mall', 'market', 'supermarket', 'retail', 'shopping'],
+        'Food & Dining': ['restaurant', 'café', 'cafe', 'diner', 'pizzeria', 'bar', 'pub', 'eatery', 'bakery', 'coffee'],
+        'Office': ['office', 'building', 'corporate', 'business', 'headquarters', 'workplace', 'suite'],
+        'Healthcare': ['hospital', 'clinic', 'medical', 'healthcare', 'doctor', 'pharmacy', 'dentist', 'health'],
+        'Recreation': ['park', 'garden', 'playground', 'recreation', 'gym', 'fitness', 'stadium', 'theater', 'cinema'],
+        'Transportation': ['station', 'airport', 'bus', 'train', 'subway', 'transit', 'terminal', 'stop'],
+        'Lodging': ['hotel', 'motel', 'inn', 'hostel', 'lodge', 'resort', 'accommodation'],
+        'Religious': ['church', 'temple', 'mosque', 'synagogue', 'chapel', 'religious', 'worship']
+    }
+    
+    # If amenity is provided and non-empty, check it first
+    if amenity and amenity.strip():
+        lower_amenity = amenity.lower()
+        for loc_type, keywords in location_types.items():
+            if any(keyword in lower_amenity for keyword in keywords):
+                return loc_type
+    
+    # Check address
+    if address and address.strip():
+        lower_address = address.lower()
+        for loc_type, keywords in location_types.items():
+            if any(keyword in lower_address for keyword in keywords):
+                return loc_type
+    
+    # Default return value
+    return 'Unknown'
 
-# Query the Nominatim API for each significant location to get the address
+# Modify the get_osm_address function to also retrieve amenity information
+def get_osm_data(lat, lon):
+    url = "https://nominatim.openstreetmap.org/reverse"
+    params = {
+        "format": "json",
+        "lat": lat,
+        "lon": lon,
+        "addressdetails": 1
+    }
+    headers = {'User-Agent': 'Mozilla/5.0 (YourAppName)'}
+    try:
+        response = requests.get(url, params=params, headers=headers)
+        if response.status_code != 200:
+            print(f"Error: Received HTTP status code {response.status_code} for ({lat}, {lon})")
+            return "Unknown", None
+        data = response.json()
+        # Extract address and amenity information
+        address = data.get("display_name", "Unknown")
+        
+        # Try to extract amenity information from different possible fields
+        amenity = None
+        if "type" in data:
+            amenity = data["type"]
+        elif "category" in data:
+            amenity = data["category"]
+        elif "amenity" in data.get("address", {}):
+            amenity = data["address"]["amenity"]
+        
+        return address, amenity
+    except Exception as e:
+        print(f"Unexpected error for ({lat}, {lon}): {e}")
+        return "Unknown", None
+
+# Initialize columns
+significant_locations['address'] = None
+significant_locations['location_type'] = None
+
+# Query the Nominatim API for each significant location to get the address and determine location type
 for index, row in significant_locations.iterrows():
-    address = get_osm_address(row['latitude'], row['longitude'])
+    address, amenity = get_osm_data(row['latitude'], row['longitude'])
     significant_locations.at[index, 'address'] = address
+    
+    # Determine location type based on address and amenity
+    location_type = determine_location_type(address, amenity)
+    significant_locations.at[index, 'location_type'] = location_type
+    
     time.sleep(1)  # Respect Nominatim's usage policy
 
-# Check the first few rows to verify the addresses
+# Check the first few rows to verify the addresses and location types
 print(significant_locations.head())
 
-# STEP 6: Save Summary Information to CSV (only coordinates, visit_count, and address)
+# STEP 6: Save Summary Information to CSV (including location_type)
 summary_data = []
 for index, row in significant_locations.iterrows():
     summary_data.append({
         'Latitude': row['latitude'],
         'Longitude': row['longitude'],
         'Visit Count': row['visit_count'],
-        'Address': row['address']
+        'Address': row['address'],
+        'Location Type': row['location_type']
     })
 
 summary_df = pd.DataFrame(summary_data)
 summary_df.to_csv("visit_summary.csv", index=False)
 print(f"Summary data saved to 'visit_summary.csv'.")
 
-# STEP 7: Create Map Visualization
+# STEP 7: Create Enhanced Map Visualization with location types
 def create_map(df, significant_locations):
     m = folium.Map(location=[df['latitude'].mean(), df['longitude'].mean()], zoom_start=12)
+    
+    # Define colors for different location types
+    type_colors = {
+        'Residential': 'blue',
+        'Educational': 'green',
+        'Commercial': 'red',
+        'Food & Dining': 'orange',
+        'Office': 'purple',
+        'Healthcare': 'pink',
+        'Recreation': 'darkgreen',
+        'Transportation': 'gray',
+        'Lodging': 'cadetblue',
+        'Religious': 'darkpurple',
+        'Unknown': 'black'
+    }
+    
     for index, row in significant_locations.iterrows():
+        # Get color based on location type
+        color = type_colors.get(row['location_type'], 'black')
+        
         folium.Marker(
             location=[row['latitude'], row['longitude']],
-            popup=f"Location: {row['address']}<br>Visit Count: {row['visit_count']}",
-            icon=folium.Icon(color='blue')
+            popup=f"Location: {row['address']}<br>Visit Count: {row['visit_count']}<br>Type: {row['location_type']}",
+            icon=folium.Icon(color=color)
         ).add_to(m)
-    m.save("map.html")
-    print("Map saved to 'map.html'.")
+        
+    # Add a legend
+    legend_html = '''
+    <div style="position: fixed; bottom: 50px; left: 50px; z-index: 1000; background-color: white; padding: 10px; border: 2px solid grey; border-radius: 5px;">
+    <h4>Location Types</h4>
+    '''
+    
+    for loc_type, color in type_colors.items():
+        legend_html += f'<i style="background: {color}; width: 15px; height: 15px; display: inline-block;"></i> {loc_type}<br>'
+    
+    legend_html += '</div>'
+    
+    m.get_root().html.add_child(folium.Element(legend_html))
+    
+    m.save("location_map.html")
+    print("Enhanced map with location types saved to 'location_map.html'.")
 
 create_map(df, significant_locations)
 
-# STEP 8: Write a formatted text summary
-# Format as requested:
-# Significant Clusters of Locations:  1/20/2025 - 3/16/2025
-# Afton Mueller
-# Coordinates:  ____, ____
-# Visit Count:  ____
-# Address:  ____
-
-# Since "Location Type" is not determined in this code, we'll use a placeholder "N/A".
-
+# STEP 8: Write a formatted text summary including location types
 with open("visit_summary.txt", "w") as f:
     f.write("Significant Clusters of Locations: 1/20/2025 - 3/16/2025\n")
     f.write("Afton Mueller\n\n")
     for _, row in summary_df.iterrows():
         f.write(f"Coordinates: {row['Latitude']}, {row['Longitude']}\n")
         f.write(f"Visit Count: {row['Visit Count']}\n")
-        f.write(f"Address: {row['Address']}\n")
+        f.write(f"Location Type: {row['Location Type']}\n")
+        f.write(f"Address: {row['Address']}\n\n")
 
-print("Formatted summary saved to 'visit_summary.txt'.")
+print("Formatted summary with location types saved to 'visit_summary.txt'.")
+
+# STEP 9: Generate Location Type Statistics
+location_type_counts = significant_locations['location_type'].value_counts()
+print("\nLocation Type Distribution:")
+print(location_type_counts)
+
+# Add the statistics to the text summary
+with open("visit_summary.txt", "a") as f:
+    f.write("\n\nLocation Type Distribution:\n")
+    for loc_type, count in location_type_counts.items():
+        f.write(f"{loc_type}: {count} locations\n")
+
+print("Location type statistics added to 'visit_summary.txt'.")

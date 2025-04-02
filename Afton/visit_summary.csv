@@ -1,8 +1,8 @@
-Latitude,Longitude,Visit Count,Address
-37.531016,-77.567882,25.0,"2518, Jimmy Winters Road, Sheffield Court, Bon Air, Chesterfield County, Virginia, 23235, United States"
-38.030992,-78.503485,57.0,"The Monroe, 429, Monroe Lane, Jefferson Park Avenue, Charlottesville, Albemarle County, Virginia, 22903, United States"
-38.036178,-78.499701,3.0,"The V, 201-213, 15th Street Northwest, Venable, Charlottesville, Virginia, 22903, United States"
-38.036457,-78.505368,10.0,"University of Virginia, Faulconer Drive, University of Virginia, Albemarle County, Virginia, 22903, United States"
-38.132616,-78.433283,4.0,"Leake Square, Springfield, Albemarle County, Virginia, 22911, United States"
-38.052815,-78.501257,8.0,"1121,1123,1125,1127, Millmont Street, Barracks Road Shopping Center, Charlottesville, Virginia, 22903, United States"
-37.558461,-77.659897,8.0,"414, Huguenot Trail, Powhatan County, Virginia, 23113, United States"
+Latitude,Longitude,Visit Count,Address,Location Type
+37.531016,-77.567882,25.0,"2518, Jimmy Winters Road, Sheffield Court, Bon Air, Chesterfield County, Virginia, 23235, United States",Unknown
+38.030992,-78.503485,57.0,"The Monroe, 429, Monroe Lane, Jefferson Park Avenue, Charlottesville, Albemarle County, Virginia, 22903, United States",Residential
+38.036178,-78.499701,3.0,"The V, 201-213, 15th Street Northwest, Venable, Charlottesville, Virginia, 22903, United States",Residential
+38.036457,-78.505368,10.0,"Shannon Library, 160, McCormick Road, Carr's Hill, University of Virginia, Albemarle County, Virginia, 22908, United States",Educational
+38.132616,-78.433283,4.0,"Leake Square, Springfield, Albemarle County, Virginia, 22911, United States",Healthcare
+38.052815,-78.501257,8.0,"1121,1123,1125,1127, Millmont Street, Barracks Road Shopping Center, Charlottesville, Virginia, 22903, United States",Commercial
+37.558461,-77.659897,8.0,"414, Huguenot Trail, Powhatan County, Virginia, 23113, United States",Unknown

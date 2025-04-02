@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_830760b95d85d7ba257cb5b962635f34 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+    <div style="position: fixed; bottom: 50px; left: 50px; z-index: 1000; background-color: white; padding: 10px; border: 2px solid grey; border-radius: 5px;">
+    <h4>Location Types</h4>
+    <i style="background: blue; width: 15px; height: 15px; display: inline-block;"></i> Residential<br><i style="background: green; width: 15px; height: 15px; display: inline-block;"></i> Educational<br><i style="background: red; width: 15px; height: 15px; display: inline-block;"></i> Commercial<br><i style="background: orange; width: 15px; height: 15px; display: inline-block;"></i> Food & Dining<br><i style="background: purple; width: 15px; height: 15px; display: inline-block;"></i> Office<br><i style="background: pink; width: 15px; height: 15px; display: inline-block;"></i> Healthcare<br><i style="background: darkgreen; width: 15px; height: 15px; display: inline-block;"></i> Recreation<br><i style="background: gray; width: 15px; height: 15px; display: inline-block;"></i> Transportation<br><i style="background: cadetblue; width: 15px; height: 15px; display: inline-block;"></i> Lodging<br><i style="background: darkpurple; width: 15px; height: 15px; display: inline-block;"></i> Religious<br><i style="background: black; width: 15px; height: 15px; display: inline-block;"></i> Unknown<br></div>
+    
+            <div class="folium-map" id="map_830760b95d85d7ba257cb5b962635f34" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_830760b95d85d7ba257cb5b962635f34 = L.map(
+                "map_830760b95d85d7ba257cb5b962635f34",
+                {
+                    center: [37.802854787003604, -78.32632868231047],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_0e7baaaba992d5c91726602773eb400a = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_0e7baaaba992d5c91726602773eb400a.addTo(map_830760b95d85d7ba257cb5b962635f34);
+        
+    
+            var marker_18b7c8a1d7041a5a06ffb07c3da16659 = L.marker(
+                [37.531016, -77.567882],
+                {
+}
+            ).addTo(map_830760b95d85d7ba257cb5b962635f34);
+        
+    
+            var icon_b19129044aba11eec989bf0dec0413d9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ffac00fb1e9287a0cd77afc2a36da37c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4d5505d4748beea8c852495a8094133b = $(`<div id="html_4d5505d4748beea8c852495a8094133b" style="width: 100.0%; height: 100.0%;">Location: 2518, Jimmy Winters Road, Sheffield Court, Bon Air, Chesterfield County, Virginia, 23235, United States<br>Visit Count: 25.0<br>Type: Unknown</div>`)[0];
+                popup_ffac00fb1e9287a0cd77afc2a36da37c.setContent(html_4d5505d4748beea8c852495a8094133b);
+            
+        
+
+        marker_18b7c8a1d7041a5a06ffb07c3da16659.bindPopup(popup_ffac00fb1e9287a0cd77afc2a36da37c)
+        ;
+
+        
+    
+    
+                marker_18b7c8a1d7041a5a06ffb07c3da16659.setIcon(icon_b19129044aba11eec989bf0dec0413d9);
+            
+    
+            var marker_22beaf0c4867832f48cae7a42daecc8a = L.marker(
+                [38.030992, -78.503485],
+                {
+}
+            ).addTo(map_830760b95d85d7ba257cb5b962635f34);
+        
+    
+            var icon_f6cf5e1084d4ea38399f5328c33f971d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_706de6ff8d7139412ae10d62c27816fb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_030b1e3ad3eb0cce55d0f58ce3e32254 = $(`<div id="html_030b1e3ad3eb0cce55d0f58ce3e32254" style="width: 100.0%; height: 100.0%;">Location: The Monroe, 429, Monroe Lane, Jefferson Park Avenue, Charlottesville, Albemarle County, Virginia, 22903, United States<br>Visit Count: 57.0<br>Type: Residential</div>`)[0];
+                popup_706de6ff8d7139412ae10d62c27816fb.setContent(html_030b1e3ad3eb0cce55d0f58ce3e32254);
+            
+        
+
+        marker_22beaf0c4867832f48cae7a42daecc8a.bindPopup(popup_706de6ff8d7139412ae10d62c27816fb)
+        ;
+
+        
+    
+    
+                marker_22beaf0c4867832f48cae7a42daecc8a.setIcon(icon_f6cf5e1084d4ea38399f5328c33f971d);
+            
+    
+            var marker_8518f66b0d937dd3b56ece9eec6c7375 = L.marker(
+                [38.036178, -78.499701],
+                {
+}
+            ).addTo(map_830760b95d85d7ba257cb5b962635f34);
+        
+    
+            var icon_928044fad39e884e6597bccbfa1b8fc0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_828aaa2a92b2ce0c8a4cce7ebce8dfe1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bb7b2b3e9fbd96b73ef6b4575529ed0e = $(`<div id="html_bb7b2b3e9fbd96b73ef6b4575529ed0e" style="width: 100.0%; height: 100.0%;">Location: The V, 201-213, 15th Street Northwest, Venable, Charlottesville, Virginia, 22903, United States<br>Visit Count: 3.0<br>Type: Residential</div>`)[0];
+                popup_828aaa2a92b2ce0c8a4cce7ebce8dfe1.setContent(html_bb7b2b3e9fbd96b73ef6b4575529ed0e);
+            
+        
+
+        marker_8518f66b0d937dd3b56ece9eec6c7375.bindPopup(popup_828aaa2a92b2ce0c8a4cce7ebce8dfe1)
+        ;
+
+        
+    
+    
+                marker_8518f66b0d937dd3b56ece9eec6c7375.setIcon(icon_928044fad39e884e6597bccbfa1b8fc0);
+            
+    
+            var marker_4fd97fe77d3e8dc610b5bb59d5ce47e6 = L.marker(
+                [38.036457, -78.505368],
+                {
+}
+            ).addTo(map_830760b95d85d7ba257cb5b962635f34);
+        
+    
+            var icon_2f125f8c3f3408d9b3147cfca3d517a5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e647818d43475f8095298073e18ab5c8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fc5a6e157e0fdef016ac3cc238355317 = $(`<div id="html_fc5a6e157e0fdef016ac3cc238355317" style="width: 100.0%; height: 100.0%;">Location: Shannon Library, 160, McCormick Road, Carr's Hill, University of Virginia, Albemarle County, Virginia, 22908, United States<br>Visit Count: 10.0<br>Type: Educational</div>`)[0];
+                popup_e647818d43475f8095298073e18ab5c8.setContent(html_fc5a6e157e0fdef016ac3cc238355317);
+            
+        
+
+        marker_4fd97fe77d3e8dc610b5bb59d5ce47e6.bindPopup(popup_e647818d43475f8095298073e18ab5c8)
+        ;
+
+        
+    
+    
+                marker_4fd97fe77d3e8dc610b5bb59d5ce47e6.setIcon(icon_2f125f8c3f3408d9b3147cfca3d517a5);
+            
+    
+            var marker_b616a36e714d3a892a9b78a50eba84dd = L.marker(
+                [38.132616, -78.433283],
+                {
+}
+            ).addTo(map_830760b95d85d7ba257cb5b962635f34);
+        
+    
+            var icon_7c0d0945c791f6541ea168186172b323 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "pink",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8d67bf0c947d69e4fdc54e25451474ff = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9722f68529d8310881e76e909e65ab2c = $(`<div id="html_9722f68529d8310881e76e909e65ab2c" style="width: 100.0%; height: 100.0%;">Location: Leake Square, Springfield, Albemarle County, Virginia, 22911, United States<br>Visit Count: 4.0<br>Type: Healthcare</div>`)[0];
+                popup_8d67bf0c947d69e4fdc54e25451474ff.setContent(html_9722f68529d8310881e76e909e65ab2c);
+            
+        
+
+        marker_b616a36e714d3a892a9b78a50eba84dd.bindPopup(popup_8d67bf0c947d69e4fdc54e25451474ff)
+        ;
+
+        
+    
+    
+                marker_b616a36e714d3a892a9b78a50eba84dd.setIcon(icon_7c0d0945c791f6541ea168186172b323);
+            
+    
+            var marker_3cfbd6bce2434f04ef661c7ff65da863 = L.marker(
+                [38.052815, -78.501257],
+                {
+}
+            ).addTo(map_830760b95d85d7ba257cb5b962635f34);
+        
+    
+            var icon_933ea7316db22a29bdee968a55fea60a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9aabf3932615d886334d1d2f57eb8d77 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b446a25ad31f0983e2a22954547a5b77 = $(`<div id="html_b446a25ad31f0983e2a22954547a5b77" style="width: 100.0%; height: 100.0%;">Location: 1121,1123,1125,1127, Millmont Street, Barracks Road Shopping Center, Charlottesville, Virginia, 22903, United States<br>Visit Count: 8.0<br>Type: Commercial</div>`)[0];
+                popup_9aabf3932615d886334d1d2f57eb8d77.setContent(html_b446a25ad31f0983e2a22954547a5b77);
+            
+        
+
+        marker_3cfbd6bce2434f04ef661c7ff65da863.bindPopup(popup_9aabf3932615d886334d1d2f57eb8d77)
+        ;
+
+        
+    
+    
+                marker_3cfbd6bce2434f04ef661c7ff65da863.setIcon(icon_933ea7316db22a29bdee968a55fea60a);
+            
+    
+            var marker_373da1328f8f504c69326ae4df8ea81d = L.marker(
+                [37.558461, -77.659897],
+                {
+}
+            ).addTo(map_830760b95d85d7ba257cb5b962635f34);
+        
+    
+            var icon_6f3ec0dc9eea0bbd5dfe2a87a259a505 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "black",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c0a025dd86060292198b86cc05978fbf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_021579d356ede687c80e561a4ca05433 = $(`<div id="html_021579d356ede687c80e561a4ca05433" style="width: 100.0%; height: 100.0%;">Location: 414, Huguenot Trail, Powhatan County, Virginia, 23113, United States<br>Visit Count: 8.0<br>Type: Unknown</div>`)[0];
+                popup_c0a025dd86060292198b86cc05978fbf.setContent(html_021579d356ede687c80e561a4ca05433);
+            
+        
+
+        marker_373da1328f8f504c69326ae4df8ea81d.bindPopup(popup_c0a025dd86060292198b86cc05978fbf)
+        ;
+
+        
+    
+    
+                marker_373da1328f8f504c69326ae4df8ea81d.setIcon(icon_6f3ec0dc9eea0bbd5dfe2a87a259a505);
+            
+</script>
+</html>
